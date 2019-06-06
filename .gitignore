@@ -1,0 +1,16 @@
+stcflash/*
+stcflash.py
+stc-isp/*
+*.adb
+*.asm
+*.bin
+*.cdb
+*.lk
+*.lst
+*.map
+*.mem
+*.omf
+*.rel
+*.rst
+*.sym
+

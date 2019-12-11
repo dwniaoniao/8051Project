@@ -13,4 +13,5 @@ stc-isp/*
 *.rel
 *.rst
 *.sym
+*.swp
 

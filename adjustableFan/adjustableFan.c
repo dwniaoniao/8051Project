@@ -2,6 +2,10 @@
 
 #define PWMport0 P2_0
 #define PWMport1 P2_1
+#define key1 P3_0
+#define key2 P3_1
+#define key3 P3_2
+#define key4 P3_3
 
 void timer0Init()
 {
@@ -38,11 +42,75 @@ void genaratePWM1(unsigned char dutyCycle)
     }
 }
 
+void setFanSpeed(unsigned char speed){
+    // speed from 0 to 100
+    genaratePWM(speed);
+    genaratePWM1(0);
+}
+
+static volatile unsigned char j;
+void delay50ms()
+{ 
+    for(j=0;j<50;j++){
+        if(!i){
+            j++;    // increment per 1024us, about 1ms
+        }
+    }
+}
+
+unsigned char keyScan()
+{
+    unsigned char pressedKey = 0;
+
+    if(!key1){
+        delay50ms();
+        if(!key1){
+            pressedKey = 1;
+        }
+        while(!key1);
+    } else if(!key2){
+        delay50ms();
+        if(!key2){
+            pressedKey = 2;
+        }
+        while(!key2);
+    } else if(!key3){
+        delay50ms();
+        if(!key3){
+            pressedKey = 3;
+        }
+        while(!key3);
+    } else if(!key4){
+        delay50ms();
+        if(!key4){
+            pressedKey = 4;
+        }
+        while(!key4);
+    }
+
+    return pressedKey;
+}
+
 void main()
 {
+    unsigned char pressedKey = 0;
+    unsigned char fanSpeed = 0;
+
     timer0Init();
     while(1){
-        genaratePWM(50);
-        genaratePWM(0);
+        setFanSpeed(fanSpeed);
+        pressedKey = keyScan();
+        switch(pressedKey){
+            case 1: fanSpeed = 0;
+                    break;
+            case 2: fanSpeed = 30;
+                    break;
+            case 3:
+                    fanSpeed = 60;
+                    break;
+            case 4:
+                    fanSpeed = 100;
+                    break;
+        }
     }
 }

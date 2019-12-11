@@ -21,6 +21,7 @@ void timer0Init()
 static volatile unsigned char i = 0;
 void timer0Interrupt() __interrupt(1)
 {
+    PWMport0 = !PWMport0;
     i++;    // increment per 4us
 }
 
@@ -91,26 +92,31 @@ unsigned char keyScan()
     return pressedKey;
 }
 
-void main()
-{
-    unsigned char pressedKey = 0;
-    unsigned char fanSpeed = 0;
+// void main()
+// {
+//     unsigned char pressedKey = 0;
+//     unsigned char fanSpeed = 0;
+// 
+//     timer0Init();
+//     while(1){
+//         setFanSpeed(fanSpeed);
+//         pressedKey = keyScan();
+//         switch(pressedKey){
+//             case 1: fanSpeed = 0;
+//                     break;
+//             case 2: fanSpeed = 30;
+//                     break;
+//             case 3:
+//                     fanSpeed = 60;
+//                     break;
+//             case 4:
+//                     fanSpeed = 100;
+//                     break;
+//         }
+//     }
+// }
 
+void main(){
     timer0Init();
-    while(1){
-        setFanSpeed(fanSpeed);
-        pressedKey = keyScan();
-        switch(pressedKey){
-            case 1: fanSpeed = 0;
-                    break;
-            case 2: fanSpeed = 30;
-                    break;
-            case 3:
-                    fanSpeed = 60;
-                    break;
-            case 4:
-                    fanSpeed = 100;
-                    break;
-        }
-    }
+    while(1);
 }
